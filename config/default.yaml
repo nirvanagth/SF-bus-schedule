@@ -1,0 +1,24 @@
+project: "SF-bus-schedule"
+
+server:
+  protocol: "http:"
+  host: "localhost"
+  port: 4000
+  serveStatic: "./dist"
+  routePrefix: "/"
+
+gateways:
+  logger:
+    enabled: true
+    baseDir: "/var/log/whetstone"
+    level: "debug"
+    kafka:
+      leafHost: "localhost"
+      leafPort: 9093
+
+  mysql:
+    enabled: false
+    host: "localhost"
+    user: "whetstone"
+    password: "whetstone"
+    database: "SF-bus-schedule"
