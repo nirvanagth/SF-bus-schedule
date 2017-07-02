@@ -5,7 +5,6 @@ import {bindActionCreators} from 'redux'
 import * as Actions from '../actions'
 import Home from './home'
 import HTMLHead from './html-head'
-import assetURL from '../../lib/asset-url'
 
 class App extends Component {
   render() {
@@ -14,8 +13,6 @@ class App extends Component {
     return (
       <div className='soft'>
         <HTMLHead />
-        <h1>Hello world!</h1>
-        <img src={assetURL('favicon.png')} />
         <Home appProps={appProps}
               appActions={appActions}/>
       </div>
