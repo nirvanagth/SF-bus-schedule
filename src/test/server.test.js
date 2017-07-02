@@ -39,3 +39,25 @@ test('GET /', t => {
     })
   }
 })
+
+test('GET / map exists', t => {
+  // Arrange
+  startServer(onServer)
+
+  // Act
+  function onServer(server) {
+    testRequest(server, {
+      method: 'GET',
+      path: '/'
+    }, (err, res) => {
+
+      // Assert
+      t.error(err, 'No error making request')
+      t.equal(res.statusCode, 200, 'Returns status code 200')
+
+      const html = res.body
+      t.true(html.includes('<div id=\"map\"'), 'html.includes(\'<div id = \'map\')')
+      server.close(t.end)
+    })
+  }
+})
