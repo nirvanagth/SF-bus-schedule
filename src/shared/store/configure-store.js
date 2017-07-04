@@ -1,20 +1,24 @@
-import {createStore, applyMiddleware} from 'redux'
+import {createStore, applyMiddleware, compose} from 'redux'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
+import window from 'global/window'
 
 import rootReducer from '../reducers'
-import isClient from '../utils/is-client'
 import environment from '../utils/environment'
 
 export default function configureStore(initialState) {
   const middleware = [thunk]
-  if (isClient) {
-    // only use xhr on client-side
-    const api = require('../middleware/api').default
-    middleware.push(api)
-  }
   if (environment === 'development') {
     middleware.push(createLogger())
   }
-  return createStore(rootReducer, initialState, applyMiddleware(...middleware))
+
+  const enhancers = [
+    applyMiddleware(...middleware)
+  ]
+
+  if (window && window.devToolsExtension) {
+    enhancers.push(window.devToolsExtension())
+  }
+
+  return createStore(rootReducer, initialState, compose(...enhancers))
 }

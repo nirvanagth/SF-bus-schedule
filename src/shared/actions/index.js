@@ -1,23 +1,31 @@
-import {ACTION} from '../utils/constants'
+import xhr from 'xhr'
+import console from 'global/console'
+import window from 'global/window'
 
-export function submit(uri, body) {
-  return {
-    type: ACTION.SUBMIT,
-    uri,
-    body
+export const RECEIVE_NEAR_POSITIONS = 'RECEIVE_NEAR_POSITIONS'
+
+export function findNearPositions(lng, lat) {
+  return (dispatch, getState) => {
+    xhr({
+      uri: `/api/near/?lng=${lng}&lat=${lat}`,
+      headers: {
+        'content-type': 'application/json',
+        'x-whetstone-origin': 'SF-bus-schedule',
+        'x-csrf-token': window.csrfToken
+      }
+    }, (err, resp, body) => {
+      if (err) {
+        console.error(`failed to findNearPositions: ${err}`)
+        return
+      }
+      dispatch(receiveNearPositions(JSON.parse(body)))
+    })
   }
 }
 
-export function recvSuccess(resp) {
+export function receiveNearPositions(positions) {
   return {
-    type: ACTION.RECV_SUCCESS,
-    resp
-  }
-}
-
-export function recvFailure(error) {
-  return {
-    type: ACTION.RECV_FAILURE,
-    error
+    type: RECEIVE_NEAR_POSITIONS,
+    payload: positions
   }
 }

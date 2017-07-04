@@ -36,6 +36,14 @@ export default class IntegratedGateways {
       this.mySQL.end()
     }
   }
+
+  onClose(cb) {
+    const close = this.close
+    this.close = () => {
+      close()
+      cb()
+    }
+  }
 }
 
 function createMySQL(logger): winston {

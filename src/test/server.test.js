@@ -3,7 +3,7 @@ import test from 'tape'
 import startServer from '../server/index'
 import {testRequest} from './util'
 
-test('GET /health', t => {
+test.only('GET /health', t => {
   startServer(onServer)
 
   function onServer(server) {

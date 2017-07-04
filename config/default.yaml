@@ -22,3 +22,6 @@ gateways:
     user: "whetstone"
     password: "whetstone"
     database: "SF-bus-schedule"
+
+  mongodb:
+    url: "mongodb://localhost:27017/sf-bus-schedule"
